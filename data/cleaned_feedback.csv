@@ -1,0 +1,6 @@
+id,text,rating,clean_text,tokens,sentiment
+1,The service was excellent,5,the service was excellent,"['the', 'service', 'was', 'excellent']",positive
+2,The delivery was very late,2,the delivery was very late,"['the', 'delivery', 'was', 'very', 'late']",negative
+3,"The price is good, but the packaging is weak",3,the price is good but the packaging is weak,"['the', 'price', 'is', 'good', 'but', 'the', 'packaging', 'is', 'weak']",neutral
+4,I will not order again,1,i will not order again,"['i', 'will', 'not', 'order', 'again']",negative
+5,A sweet experience and I will repeat it,4,a sweet experience and i will repeat it,"['a', 'sweet', 'experience', 'and', 'i', 'will', 'repeat', 'it']",positive
