@@ -5,8 +5,8 @@ import numpy as np
 # 🧠 تحميل الموديل
 @st.cache_resource
 def load_model():
-    model = joblib.load("data/sentiment_model_v2.pkl")
-    vectorizer = joblib.load("data/tfidf_vectorizer_v2.pkl")
+    model = joblib.load("data/arabic_sentiment_model.pkl")
+    vectorizer = joblib.load("data/arabic_vectorizer.pkl")
     return model, vectorizer
 
 model, vectorizer = load_model()
