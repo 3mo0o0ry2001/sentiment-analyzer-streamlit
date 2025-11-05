@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import numpy as np
 
-# 🧠 تحميل الموديل والـvectorizer (الإصدار الجديد)
+# 🧠 تحميل الموديل
 @st.cache_resource
 def load_model():
     model = joblib.load("data/sentiment_model_v2.pkl")
@@ -14,47 +14,34 @@ model, vectorizer = load_model()
 # 🎨 إعداد الصفحة
 st.set_page_config(page_title="Sentiment Analyzer v2", page_icon="🧠", layout="centered")
 
-st.title("🧠 Sentiment Analyzer v2")
-st.markdown(
-    "<p style='font-size:18px;'>اكتب أي جملة بالإنجليزية، والموديل هيحدد إذا كانت إيجابية أو سلبية مع نسبة الثقة.</p>",
-    unsafe_allow_html=True
-)
+# 👋 الهيدر
+st.markdown("<h1 style='text-align:center; color:#4CAF50;'>🧠 Sentiment Analyzer v2</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; font-size:17px;'>Analyze English sentences and discover their sentiment instantly.</p>", unsafe_allow_html=True)
 st.write("---")
 
 # ✍️ إدخال المستخدم
-user_input = st.text_area("🗣️ Write your sentence here:")
+user_input = st.text_area("🗣️ Write your sentence here:", placeholder="Type your review or opinion...")
 
 if st.button("🔍 Analyze Sentiment"):
-    if user_input.strip() == "":
+    if not user_input.strip():
         st.warning("Please enter a sentence.")
     else:
-        # تحويل النص إلى تمثيل رقمي
         X_input = vectorizer.transform([user_input.lower()])
-
-        # التوقع ونسبة الثقة
         prediction = model.predict(X_input)[0]
         probabilities = model.predict_proba(X_input)[0]
         confidence = np.max(probabilities) * 100
 
-        sentiment_label = "Positive" if prediction == 1 else "Negative"
-        color = "limegreen" if prediction == 1 else "red"
+        sentiment_label = "Positive 😄" if prediction == 1 else "Negative 😡"
+        color = "#4CAF50" if prediction == 1 else "#FF4B4B"
 
-        # 🧠 عرض النتيجة
-        st.markdown(
-            f"<h3>🧠 Predicted Sentiment: <span style='color:{color};'>{sentiment_label}</span></h3>",
-            unsafe_allow_html=True
-        )
-        st.markdown(f"<h4>📊 Confidence: {confidence:.2f}%</h4>", unsafe_allow_html=True)
-
-        # 🎚️ شريط الثقة
+        # 🎯 النتيجة
+        st.markdown(f"<h3 style='color:{color}; text-align:center;'>🧠 {sentiment_label}</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='text-align:center;'>📊 Confidence: {confidence:.2f}%</h4>", unsafe_allow_html=True)
         st.progress(int(confidence))
 
-        # 💬 تعليق بسيط حسب النتيجة
-        if prediction == 1:
-            st.success("😄 This seems to be a **positive** review!")
-        else:
-            st.error("😡 This seems to be a **negative** review!")
-
-        # 🔎 تعليق إضافي حسب الثقة
+        # 💬 ملاحظات
         if confidence < 60:
             st.info("⚠️ Low confidence — model is uncertain about this prediction.")
+
+st.write("---")
+st.caption("Developed by Omar Ayoub | Version 2.0 | Powered by Logistic Regression + TF-IDF")
